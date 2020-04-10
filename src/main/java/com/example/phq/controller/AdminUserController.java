@@ -38,6 +38,7 @@ import java.util.UUID;
  */
 @Slf4j
 @RestController
+@RequestMapping("admin")
 public class AdminUserController {
     private static Logger log = LoggerFactory.getLogger(AdminUserController.class);
 
@@ -48,7 +49,7 @@ public class AdminUserController {
     @Autowired
     private SmsService smsService;
 
-    @PostMapping("/adminLogin")
+    @PostMapping("/login")
     public Result adminLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
         JSONObject input = JSONObject.parseObject(IOUtil.InputStream2String(request.getInputStream()));
         String phone = input.getString("phone");
