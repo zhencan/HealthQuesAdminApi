@@ -2,6 +2,7 @@ package com.example.phq.service;
 
 import com.example.phq.mapper.PhqUserMapper;
 import com.example.phq.pojo.PhqUser;
+import com.example.phq.pojo.PhqUserExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,5 +21,8 @@ public class UserService {
             phqUserMapper.insert(user);
         }
         return true;
+    }
+
+    public void getUsers(){
     }
 }

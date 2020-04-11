@@ -2,12 +2,10 @@ package com.example.phq.pojo;
 
 import java.io.Serializable;
 
-public class PhqQuestionnaireTemplate implements Serializable {
+public class PhqQuestionType implements Serializable {
     private Integer id;
 
-    private String templateName;
-
-    private String description;
+    private String typeName;
 
     private Integer atCreate;
 
@@ -23,20 +21,12 @@ public class PhqQuestionnaireTemplate implements Serializable {
         this.id = id;
     }
 
-    public String getTemplateName() {
-        return templateName;
+    public String getTypeName() {
+        return typeName;
     }
 
-    public void setTemplateName(String templateName) {
-        this.templateName = templateName == null ? null : templateName.trim();
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
+    public void setTypeName(String typeName) {
+        this.typeName = typeName == null ? null : typeName.trim();
     }
 
     public Integer getAtCreate() {

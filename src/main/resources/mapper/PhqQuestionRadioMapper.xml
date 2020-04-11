@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.phq.mapper.PhqQuestionMapper">
-  <resultMap id="BaseResultMap" type="com.example.phq.pojo.PhqQuestion">
+<mapper namespace="com.example.phq.mapper.PhqQuestionRadioMapper">
+  <resultMap id="BaseResultMap" type="com.example.phq.pojo.PhqQuestionRadio">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
     <result column="ques_tpl_id" jdbcType="INTEGER" property="quesTplId" />
     <result column="question" jdbcType="VARCHAR" property="question" />
+    <result column="options" jdbcType="VARCHAR" property="options" />
     <result column="at_create" jdbcType="INTEGER" property="atCreate" />
     <result column="at_update" jdbcType="INTEGER" property="atUpdate" />
   </resultMap>
@@ -67,15 +69,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, ques_tpl_id, question, at_create, at_update
+    id, type_id, ques_tpl_id, question, options, at_create, at_update
   </sql>
-  <select id="selectByExample" parameterType="com.example.phq.pojo.PhqQuestionExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.example.phq.pojo.PhqQuestionRadioExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from phq_question
+    from phq_question_radio
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -86,36 +88,44 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from phq_question
+    from phq_question_radio
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from phq_question
+    delete from phq_question_radio
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.example.phq.pojo.PhqQuestionExample">
-    delete from phq_question
+  <delete id="deleteByExample" parameterType="com.example.phq.pojo.PhqQuestionRadioExample">
+    delete from phq_question_radio
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.example.phq.pojo.PhqQuestion">
-    insert into phq_question (id, ques_tpl_id, question, 
-      at_create, at_update)
-    values (#{id,jdbcType=INTEGER}, #{quesTplId,jdbcType=INTEGER}, #{question,jdbcType=VARCHAR}, 
-      #{atCreate,jdbcType=INTEGER}, #{atUpdate,jdbcType=INTEGER})
+  <insert id="insert" parameterType="com.example.phq.pojo.PhqQuestionRadio">
+    insert into phq_question_radio (id, type_id, ques_tpl_id, 
+      question, options, at_create, 
+      at_update)
+    values (#{id,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, #{quesTplId,jdbcType=INTEGER}, 
+      #{question,jdbcType=VARCHAR}, #{options,jdbcType=VARCHAR}, #{atCreate,jdbcType=INTEGER}, 
+      #{atUpdate,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.phq.pojo.PhqQuestion">
-    insert into phq_question
+  <insert id="insertSelective" parameterType="com.example.phq.pojo.PhqQuestionRadio">
+    insert into phq_question_radio
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="typeId != null">
+        type_id,
       </if>
       <if test="quesTplId != null">
         ques_tpl_id,
       </if>
       <if test="question != null">
         question,
+      </if>
+      <if test="options != null">
+        options,
       </if>
       <if test="atCreate != null">
         at_create,
@@ -128,11 +138,17 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=INTEGER},
+      </if>
       <if test="quesTplId != null">
         #{quesTplId,jdbcType=INTEGER},
       </if>
       <if test="question != null">
         #{question,jdbcType=VARCHAR},
+      </if>
+      <if test="options != null">
+        #{options,jdbcType=VARCHAR},
       </if>
       <if test="atCreate != null">
         #{atCreate,jdbcType=INTEGER},
@@ -142,23 +158,29 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.example.phq.pojo.PhqQuestionExample" resultType="java.lang.Long">
-    select count(*) from phq_question
+  <select id="countByExample" parameterType="com.example.phq.pojo.PhqQuestionRadioExample" resultType="java.lang.Long">
+    select count(*) from phq_question_radio
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update phq_question
+    update phq_question_radio
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeId != null">
+        type_id = #{record.typeId,jdbcType=INTEGER},
       </if>
       <if test="record.quesTplId != null">
         ques_tpl_id = #{record.quesTplId,jdbcType=INTEGER},
       </if>
       <if test="record.question != null">
         question = #{record.question,jdbcType=VARCHAR},
+      </if>
+      <if test="record.options != null">
+        options = #{record.options,jdbcType=VARCHAR},
       </if>
       <if test="record.atCreate != null">
         at_create = #{record.atCreate,jdbcType=INTEGER},
@@ -172,24 +194,32 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update phq_question
+    update phq_question_radio
     set id = #{record.id,jdbcType=INTEGER},
+      type_id = #{record.typeId,jdbcType=INTEGER},
       ques_tpl_id = #{record.quesTplId,jdbcType=INTEGER},
       question = #{record.question,jdbcType=VARCHAR},
+      options = #{record.options,jdbcType=VARCHAR},
       at_create = #{record.atCreate,jdbcType=INTEGER},
       at_update = #{record.atUpdate,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.phq.pojo.PhqQuestion">
-    update phq_question
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.phq.pojo.PhqQuestionRadio">
+    update phq_question_radio
     <set>
+      <if test="typeId != null">
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
       <if test="quesTplId != null">
         ques_tpl_id = #{quesTplId,jdbcType=INTEGER},
       </if>
       <if test="question != null">
         question = #{question,jdbcType=VARCHAR},
+      </if>
+      <if test="options != null">
+        options = #{options,jdbcType=VARCHAR},
       </if>
       <if test="atCreate != null">
         at_create = #{atCreate,jdbcType=INTEGER},
@@ -200,10 +230,12 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.phq.pojo.PhqQuestion">
-    update phq_question
-    set ques_tpl_id = #{quesTplId,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="com.example.phq.pojo.PhqQuestionRadio">
+    update phq_question_radio
+    set type_id = #{typeId,jdbcType=INTEGER},
+      ques_tpl_id = #{quesTplId,jdbcType=INTEGER},
       question = #{question,jdbcType=VARCHAR},
+      options = #{options,jdbcType=VARCHAR},
       at_create = #{atCreate,jdbcType=INTEGER},
       at_update = #{atUpdate,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

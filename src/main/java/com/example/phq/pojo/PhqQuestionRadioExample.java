@@ -3,14 +3,14 @@ package com.example.phq.pojo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PhqQuestionExample {
+public class PhqQuestionRadioExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public PhqQuestionExample() {
+    public PhqQuestionRadioExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -164,6 +164,66 @@ public class PhqQuestionExample {
             return (Criteria) this;
         }
 
+        public Criteria andTypeIdIsNull() {
+            addCriterion("type_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIdIsNotNull() {
+            addCriterion("type_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIdEqualTo(Integer value) {
+            addCriterion("type_id =", value, "typeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIdNotEqualTo(Integer value) {
+            addCriterion("type_id <>", value, "typeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIdGreaterThan(Integer value) {
+            addCriterion("type_id >", value, "typeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("type_id >=", value, "typeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIdLessThan(Integer value) {
+            addCriterion("type_id <", value, "typeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIdLessThanOrEqualTo(Integer value) {
+            addCriterion("type_id <=", value, "typeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIdIn(List<Integer> values) {
+            addCriterion("type_id in", values, "typeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIdNotIn(List<Integer> values) {
+            addCriterion("type_id not in", values, "typeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIdBetween(Integer value1, Integer value2) {
+            addCriterion("type_id between", value1, value2, "typeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("type_id not between", value1, value2, "typeId");
+            return (Criteria) this;
+        }
+
         public Criteria andQuesTplIdIsNull() {
             addCriterion("ques_tpl_id is null");
             return (Criteria) this;
@@ -291,6 +351,76 @@ public class PhqQuestionExample {
 
         public Criteria andQuestionNotBetween(String value1, String value2) {
             addCriterion("question not between", value1, value2, "question");
+            return (Criteria) this;
+        }
+
+        public Criteria andOptionsIsNull() {
+            addCriterion("options is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOptionsIsNotNull() {
+            addCriterion("options is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOptionsEqualTo(String value) {
+            addCriterion("options =", value, "options");
+            return (Criteria) this;
+        }
+
+        public Criteria andOptionsNotEqualTo(String value) {
+            addCriterion("options <>", value, "options");
+            return (Criteria) this;
+        }
+
+        public Criteria andOptionsGreaterThan(String value) {
+            addCriterion("options >", value, "options");
+            return (Criteria) this;
+        }
+
+        public Criteria andOptionsGreaterThanOrEqualTo(String value) {
+            addCriterion("options >=", value, "options");
+            return (Criteria) this;
+        }
+
+        public Criteria andOptionsLessThan(String value) {
+            addCriterion("options <", value, "options");
+            return (Criteria) this;
+        }
+
+        public Criteria andOptionsLessThanOrEqualTo(String value) {
+            addCriterion("options <=", value, "options");
+            return (Criteria) this;
+        }
+
+        public Criteria andOptionsLike(String value) {
+            addCriterion("options like", value, "options");
+            return (Criteria) this;
+        }
+
+        public Criteria andOptionsNotLike(String value) {
+            addCriterion("options not like", value, "options");
+            return (Criteria) this;
+        }
+
+        public Criteria andOptionsIn(List<String> values) {
+            addCriterion("options in", values, "options");
+            return (Criteria) this;
+        }
+
+        public Criteria andOptionsNotIn(List<String> values) {
+            addCriterion("options not in", values, "options");
+            return (Criteria) this;
+        }
+
+        public Criteria andOptionsBetween(String value1, String value2) {
+            addCriterion("options between", value1, value2, "options");
+            return (Criteria) this;
+        }
+
+        public Criteria andOptionsNotBetween(String value1, String value2) {
+            addCriterion("options not between", value1, value2, "options");
             return (Criteria) this;
         }
 

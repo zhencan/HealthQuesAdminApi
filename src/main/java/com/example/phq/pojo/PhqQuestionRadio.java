@@ -2,12 +2,16 @@ package com.example.phq.pojo;
 
 import java.io.Serializable;
 
-public class PhqQuestion implements Serializable {
+public class PhqQuestionRadio implements Serializable {
     private Integer id;
+
+    private Integer typeId;
 
     private Integer quesTplId;
 
     private String question;
+
+    private String options;
 
     private Integer atCreate;
 
@@ -21,6 +25,14 @@ public class PhqQuestion implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
     }
 
     public Integer getQuesTplId() {
@@ -37,6 +49,14 @@ public class PhqQuestion implements Serializable {
 
     public void setQuestion(String question) {
         this.question = question == null ? null : question.trim();
+    }
+
+    public String getOptions() {
+        return options;
+    }
+
+    public void setOptions(String options) {
+        this.options = options == null ? null : options.trim();
     }
 
     public Integer getAtCreate() {

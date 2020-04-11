@@ -58,9 +58,11 @@
         <table schema="" tableName="phq_feedback"></table>
         <table schema="" tableName="phq_healthy_message"></table>
         <table schema="" tableName="phq_message"></table>
-        <table schema="" tableName="phq_question"></table>
+        <table schema="" tableName="phq_question_radio"></table>
+        <table schema="" tableName="phq_question_type"></table>
         <table schema="" tableName="phq_questionnaire_template"></table>
         <table schema="" tableName="phq_school"></table>
         <table schema="" tableName="phq_user"></table>
+
     </context>
 </generatorConfiguration>

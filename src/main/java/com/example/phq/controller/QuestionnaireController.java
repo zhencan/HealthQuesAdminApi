@@ -1,0 +1,53 @@
+package com.example.phq.controller;
+
+import com.alibaba.fastjson.JSONObject;
+import com.example.phq.common.response.Result;
+import com.example.phq.service.QuestionnaireServer;
+import com.example.phq.util.IOUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+
+@RestController
+@RequestMapping("/questionnaire")
+public class QuestionnaireController {
+    @Autowired
+    QuestionnaireServer questionnaireServer;
+
+    @PostMapping("/addQuestionnaireTemplate")
+    public Result addQuestionnaireTemplate(HttpServletRequest request){
+        JSONObject templateJson;
+        try{
+            templateJson = JSONObject.parseObject(IOUtil.InputStream2String(request.getInputStream()));
+        }catch (IOException e) {
+            e.printStackTrace();
+            return Result.FAIL();
+        }
+        boolean ok = questionnaireServer.addQuestionnaireTemplate(templateJson);
+        if(!ok)
+            return Result.FAIL();
+        return Result.SUCCESS();
+    }
+
+    @PostMapping("/modifyQuestionnaireTemplate")
+    public Result modifyQuestionnaireTemplate(HttpServletRequest request){
+        JSONObject templateJson;
+        try{
+            templateJson = JSONObject.parseObject(IOUtil.InputStream2String(request.getInputStream()));
+        }catch (IOException e) {
+            e.printStackTrace();
+            return Result.FAIL();
+        }
+        boolean ok = questionnaireServer.modifyQuestionnaire(templateJson);
+        if(!ok)
+            return Result.FAIL();
+        return Result.SUCCESS();
+    }
+
+    @GetMapping("/test")
+    public Result test(@RequestParam(value = "id") int id){
+        return Result.SUCCESS(questionnaireServer.getQuestionnaire(id));
+    }
+}
