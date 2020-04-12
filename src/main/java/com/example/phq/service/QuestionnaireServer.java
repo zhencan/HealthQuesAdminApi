@@ -38,7 +38,8 @@ public class QuestionnaireServer {
 
         phqQuestionnaireTemplateMapper.insert(template);
         PhqQuestionnaireTemplateExample templateExample = new PhqQuestionnaireTemplateExample();
-        templateExample.or().andTemplateNameEqualTo(templateName).andDescriptionEqualTo(templateDescription);
+        templateExample.or().andTemplateNameEqualTo(templateName).andDescriptionEqualTo(templateDescription).
+            andAtCreateEqualTo(time).andAtUpdateEqualTo(time);
         List<PhqQuestionnaireTemplate> templateList = phqQuestionnaireTemplateMapper.selectByExample(templateExample);
         if(templateList.size() == 0)
             return false;
@@ -73,6 +74,14 @@ public class QuestionnaireServer {
         return true;
     }
 
+    /**
+     * 模板修改：增加问题，修改问题，删除问题
+     * 修改问题：问题中有id的，把数据库中对应id的问题修改
+     * 增加问题：没有id，往数据库插入
+     * 删除问题：比对修改前的模板和前端发的模板的所有问题id，数据库中在前端模板里占不到的就删除
+     * @param jsonQuesTemp
+     * @return
+     */
     @Transactional
     public boolean modifyQuestionnaire(JSONObject jsonQuesTemp){
         int time = (int)System.currentTimeMillis();
@@ -114,9 +123,12 @@ public class QuestionnaireServer {
 
             if(questionId != null){
                 PhqQuestionRadio preQuestion = phqQuestionRadioMapper.selectByPrimaryKey(questionId);
-                question.setAtCreate(preQuestion.getAtCreate());
-                question.setAtUpdate(time);
-                phqQuestionRadioMapper.updateByPrimaryKey(question);
+                if(preQuestion.getTypeId() != question.getTypeId() || !preQuestion.getOptions().equals(question.getOptions())
+                    || !preQuestion.getQuestion().equals(question.getQuestion())){
+                    question.setAtCreate(preQuestion.getAtCreate());
+                    question.setAtUpdate(time);
+                    phqQuestionRadioMapper.updateByPrimaryKey(question);
+                }
                 questionIdList[questionIdListIndex++] = questionId;
             }else{
                 question.setAtCreate(time);
@@ -136,15 +148,34 @@ public class QuestionnaireServer {
         return true;
     }
 
-    public Map<String, Object> getQuestionnaire(int questId){
-        PhqQuestionnaireTemplate questionnaireTemplate = phqQuestionnaireTemplateMapper.selectByPrimaryKey(questId);
+    /**
+     * 删除模板及其下面的所有问题
+     * @param templateId
+     * @return
+     */
+    @Transactional
+    public boolean removeTemplateAndQuestion(int templateId){
+        phqQuestionnaireTemplateMapper.deleteByPrimaryKey(templateId);
         PhqQuestionRadioExample example = new PhqQuestionRadioExample();
-        example.or().andQuesTplIdEqualTo(questId);
+        example.or().andQuesTplIdEqualTo(templateId);
+        phqQuestionRadioMapper.deleteByExample(example);
+        return true;
+    }
+
+    /**
+     * 根据模板id查找所有问题
+     * @param templateId
+     * @return
+     */
+    public Map<String, Object> getQuestionnaireAllQuestion(int templateId){
+        PhqQuestionnaireTemplate questionnaireTemplate = phqQuestionnaireTemplateMapper.selectByPrimaryKey(templateId);
+        PhqQuestionRadioExample example = new PhqQuestionRadioExample();
+        example.or().andQuesTplIdEqualTo(templateId);
         List<PhqQuestionRadio> list = phqQuestionRadioMapper.selectByExample(example);
         Map<String, Object> map = new HashMap<>();
         map.put("templateName", questionnaireTemplate.getTemplateName());
         map.put("description", questionnaireTemplate.getDescription());
-        map.put("id", questId);
+        map.put("id", templateId);
 
         List<Map<String, Object>> jsonQuestionList = new LinkedList<>();
         for(PhqQuestionRadio question: list){
@@ -157,5 +188,19 @@ public class QuestionnaireServer {
         }
         map.put("questions", jsonQuestionList);
         return map;
+    }
+
+    /**
+     * 获取所有模板信息，不包含模板里的问题
+     * @return
+     */
+    public List<PhqQuestionnaireTemplate> getAllTemplate(){
+        PhqQuestionnaireTemplateExample example = new PhqQuestionnaireTemplateExample();
+        example.or().andIdIsNotNull();
+        List<PhqQuestionnaireTemplate> templateList = phqQuestionnaireTemplateMapper.selectByExample(example);
+        if(templateList == null){
+            return null;
+        }
+        return templateList;
     }
 }
