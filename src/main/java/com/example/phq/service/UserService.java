@@ -23,6 +23,10 @@ public class UserService {
         return true;
     }
 
-    public void getUsers(){
+    public List<PhqUser> getAllUsers(){
+        PhqUserExample example = new PhqUserExample();
+        example.or().andIdIsNotNull();
+        List<PhqUser> list = phqUserMapper.selectByExample(example);
+        return list;
     }
 }

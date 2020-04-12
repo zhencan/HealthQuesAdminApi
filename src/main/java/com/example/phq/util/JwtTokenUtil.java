@@ -16,7 +16,7 @@ import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
 import java.util.Date;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * ========================
@@ -24,6 +24,10 @@ import java.util.TreeMap;
  * User：pyy
  * Date：2019/7/17 17:24
  * Version: v1.0
+ * ========================
+ * action：增加登出机制
+ * user：cjf
+ * Date：2020年4月12日
  * ========================
  */
 public class JwtTokenUtil {
@@ -34,6 +38,11 @@ public class JwtTokenUtil {
 
     public static final String TOKEN_PREFIX = "Bearer ";
 
+    private static Map<String, String> adminId2Token;
+
+    static{
+        adminId2Token = new ConcurrentHashMap<>();
+    }
 
     /**
      * 解析jwt
@@ -135,6 +144,18 @@ public class JwtTokenUtil {
      */
     public static boolean isExpiration(String token, String base64Security) {
         return parseJWT(token, base64Security).getExpiration().before(new Date());
+    }
+
+    public static boolean signoutContains(String token){
+        return adminId2Token.containsValue(token);
+    }
+
+    public static void putSingoutToken(String adminId, String token){
+        adminId2Token.put(adminId, token);
+    }
+
+    public static void removeSignoutToken(String adminId){
+        adminId2Token.remove(adminId);
     }
 
 }

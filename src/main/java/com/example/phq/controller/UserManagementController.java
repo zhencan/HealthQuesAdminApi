@@ -1,5 +1,6 @@
 package com.example.phq.controller;
 
+import com.example.phq.annotation.JwtVerify;
 import com.example.phq.common.response.Result;
 import com.example.phq.pojo.PhqUser;
 import com.example.phq.service.UserService;
@@ -20,20 +21,7 @@ public class UserManagementController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/test")
-    public Result test(){
-        File file = new File("E:\\Documents\\work\\cjfv\\spring_work\\phq\\用户表.xls");
-        FileInputStream fis;
-        try {
-            fis = new FileInputStream(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return Result.FAIL();
-        }
-        List<PhqUser> list = IOUtil.readUserFromExcel(fis);
-        return Result.SUCCESS(list );
-    }
-
+    @JwtVerify
     @PostMapping("/importUserFromFile")
     public Result importUserFromFile(MultipartFile file){
         InputStream is;
@@ -49,5 +37,12 @@ public class UserManagementController {
         if(ok)
             return Result.SUCCESS();
         else return Result.FAIL();
+    }
+
+    @JwtVerify
+    @GetMapping("allUsers")
+    public Result getAllUsers(){
+        List<PhqUser> list = userService.getAllUsers();
+        return Result.SUCCESS(list);
     }
 }

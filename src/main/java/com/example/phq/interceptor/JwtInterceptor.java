@@ -80,6 +80,12 @@ public class JwtInterceptor extends HandlerInterceptorAdapter{
         // 验证token是否有效--无效已做异常抛出，由全局异常处理后返回对应信息
         JwtTokenUtil.parseJWT(token, audience.getBase64Secret());
 
+        //验证token是已登出
+        if(JwtTokenUtil.signoutContains(token)){
+            log.info("### 用户使用已登出的Token ###");
+            throw new CustomException(ResultCode.USER_NOT_LOGGED_IN);
+        }
+
         return true;
     }
 

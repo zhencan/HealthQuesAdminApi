@@ -67,8 +67,8 @@ public class AdminUserController {
 
         // 创建token
         String token = JwtTokenUtil.createJWT(userId, adminInfo.getAdminName(), role, audience);
-        System.out.println("adminId============"+JwtTokenUtil.getUserId(token, audience.getBase64Secret()));
         log.info("### 登录成功, token={} ###", token);
+        JwtTokenUtil.removeSignoutToken(userId);
 
         // 将token放在响应头
         response.setHeader(JwtTokenUtil.AUTH_HEADER_KEY, JwtTokenUtil.TOKEN_PREFIX + token);
@@ -79,12 +79,13 @@ public class AdminUserController {
         return Result.SUCCESS(result);
     }
 
-    @GetMapping("/users")
-    public Result userList() {
-        log.info("### 查询所有用户列表 ###");
-        return new Result(smsService.sendSmsCode("15626257906"));
-//        SmsUtil.putSmsCodeQ(new Sms("15626257906", "123123", System.currentTimeMillis()), /*10*60*1000L*/10000000);
-//        return Result.SUCCESS();
+    @JwtVerify
+    @GetMapping("/signout")
+    public Result adminSingout(HttpServletRequest request){
+        String adminId = getAdminIdFromToken(request);
+        String token = getTokenFromRequest(request);
+        JwtTokenUtil.putSingoutToken(adminId, token);
+        return Result.SUCCESS();
     }
 
     @JwtVerify
@@ -178,9 +179,14 @@ public class AdminUserController {
         return Result.SUCCESS(adminInfo);
     }
 
+    private String getTokenFromRequest(HttpServletRequest request){
+        String authHeader = request.getHeader(JwtTokenUtil.AUTH_HEADER_KEY);
+        String token = authHeader.substring(7);
+        return token;
+    }
+
     private String getAdminIdFromToken(HttpServletRequest request){
-        final String authHeader = request.getHeader(JwtTokenUtil.AUTH_HEADER_KEY);
-        final String token = authHeader.substring(7);
+        String token = getTokenFromRequest(request);
         String adminId = JwtTokenUtil.getUserId(token, audience.getBase64Secret());
         return adminId;
     }
