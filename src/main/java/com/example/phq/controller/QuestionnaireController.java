@@ -36,30 +36,6 @@ public class QuestionnaireController {
     }
 
     @JwtVerify
-    @PostMapping("/modifyQuestionnaireTemplate")
-    public Result modifyQuestionnaireTemplate(HttpServletRequest request){
-        JSONObject templateJson;
-        try{
-            templateJson = JSONObject.parseObject(IOUtil.InputStream2String(request.getInputStream()));
-        }catch (IOException e) {
-            e.printStackTrace();
-            return Result.FAIL();
-        }
-        boolean ok = questionnaireServer.modifyQuestionnaire(templateJson);
-        if(!ok)
-            return Result.FAIL();
-        return Result.SUCCESS();
-    }
-
-    @JwtVerify
-    @PostMapping("/removeTemplateAndQuestion")
-    public Result removeTemplateAndQuestion(@RequestBody PhqQuestionnaireTemplate template){
-        if(questionnaireServer.removeTemplateAndQuestion(template.getId()))
-            return Result.SUCCESS();
-        return Result.FAIL();
-    }
-
-    @JwtVerify
     @PostMapping("/getQuestionnaireAllQuestion")
     public Result getQuestionnaireAllQuestion(@RequestBody PhqQuestionnaireTemplate template){
         return Result.SUCCESS(questionnaireServer.getQuestionnaireAllQuestion(template.getId()));
