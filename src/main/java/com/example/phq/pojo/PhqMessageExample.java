@@ -224,6 +224,66 @@ public class PhqMessageExample {
             return (Criteria) this;
         }
 
+        public Criteria andQuesTplIdIsNull() {
+            addCriterion("ques_tpl_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuesTplIdIsNotNull() {
+            addCriterion("ques_tpl_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuesTplIdEqualTo(Integer value) {
+            addCriterion("ques_tpl_id =", value, "quesTplId");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuesTplIdNotEqualTo(Integer value) {
+            addCriterion("ques_tpl_id <>", value, "quesTplId");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuesTplIdGreaterThan(Integer value) {
+            addCriterion("ques_tpl_id >", value, "quesTplId");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuesTplIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ques_tpl_id >=", value, "quesTplId");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuesTplIdLessThan(Integer value) {
+            addCriterion("ques_tpl_id <", value, "quesTplId");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuesTplIdLessThanOrEqualTo(Integer value) {
+            addCriterion("ques_tpl_id <=", value, "quesTplId");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuesTplIdIn(List<Integer> values) {
+            addCriterion("ques_tpl_id in", values, "quesTplId");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuesTplIdNotIn(List<Integer> values) {
+            addCriterion("ques_tpl_id not in", values, "quesTplId");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuesTplIdBetween(Integer value1, Integer value2) {
+            addCriterion("ques_tpl_id between", value1, value2, "quesTplId");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuesTplIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("ques_tpl_id not between", value1, value2, "quesTplId");
+            return (Criteria) this;
+        }
+
         public Criteria andTitleIsNull() {
             addCriterion("title is null");
             return (Criteria) this;
@@ -361,6 +421,66 @@ public class PhqMessageExample {
 
         public Criteria andContentNotBetween(String value1, String value2) {
             addCriterion("content not between", value1, value2, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOccupyIsNull() {
+            addCriterion("is_occupy is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOccupyIsNotNull() {
+            addCriterion("is_occupy is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOccupyEqualTo(Integer value) {
+            addCriterion("is_occupy =", value, "isOccupy");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOccupyNotEqualTo(Integer value) {
+            addCriterion("is_occupy <>", value, "isOccupy");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOccupyGreaterThan(Integer value) {
+            addCriterion("is_occupy >", value, "isOccupy");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOccupyGreaterThanOrEqualTo(Integer value) {
+            addCriterion("is_occupy >=", value, "isOccupy");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOccupyLessThan(Integer value) {
+            addCriterion("is_occupy <", value, "isOccupy");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOccupyLessThanOrEqualTo(Integer value) {
+            addCriterion("is_occupy <=", value, "isOccupy");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOccupyIn(List<Integer> values) {
+            addCriterion("is_occupy in", values, "isOccupy");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOccupyNotIn(List<Integer> values) {
+            addCriterion("is_occupy not in", values, "isOccupy");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOccupyBetween(Integer value1, Integer value2) {
+            addCriterion("is_occupy between", value1, value2, "isOccupy");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOccupyNotBetween(Integer value1, Integer value2) {
+            addCriterion("is_occupy not between", value1, value2, "isOccupy");
             return (Criteria) this;
         }
 

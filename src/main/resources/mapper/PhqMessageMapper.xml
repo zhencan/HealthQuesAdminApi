@@ -4,8 +4,10 @@
   <resultMap id="BaseResultMap" type="com.example.phq.pojo.PhqMessage">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="ques_tpl_id" jdbcType="INTEGER" property="quesTplId" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="is_occupy" jdbcType="INTEGER" property="isOccupy" />
     <result column="at_create" jdbcType="INTEGER" property="atCreate" />
     <result column="at_update" jdbcType="INTEGER" property="atUpdate" />
   </resultMap>
@@ -68,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, title, content, at_create, at_update
+    id, user_id, ques_tpl_id, title, content, is_occupy, at_create, at_update
   </sql>
   <select id="selectByExample" parameterType="com.example.phq.pojo.PhqMessageExample" resultMap="BaseResultMap">
     select
@@ -101,12 +103,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.example.phq.pojo.PhqMessage">
-    insert into phq_message (id, user_id, title, 
-      content, at_create, at_update
-      )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
-      #{content,jdbcType=VARCHAR}, #{atCreate,jdbcType=INTEGER}, #{atUpdate,jdbcType=INTEGER}
-      )
+    insert into phq_message (id, user_id, ques_tpl_id, 
+      title, content, is_occupy, 
+      at_create, at_update)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{quesTplId,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{isOccupy,jdbcType=INTEGER}, 
+      #{atCreate,jdbcType=INTEGER}, #{atUpdate,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.example.phq.pojo.PhqMessage">
     insert into phq_message
@@ -117,11 +119,17 @@
       <if test="userId != null">
         user_id,
       </if>
+      <if test="quesTplId != null">
+        ques_tpl_id,
+      </if>
       <if test="title != null">
         title,
       </if>
       <if test="content != null">
         content,
+      </if>
+      <if test="isOccupy != null">
+        is_occupy,
       </if>
       <if test="atCreate != null">
         at_create,
@@ -137,11 +145,17 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
+      <if test="quesTplId != null">
+        #{quesTplId,jdbcType=INTEGER},
+      </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="isOccupy != null">
+        #{isOccupy,jdbcType=INTEGER},
       </if>
       <if test="atCreate != null">
         #{atCreate,jdbcType=INTEGER},
@@ -166,11 +180,17 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.quesTplId != null">
+        ques_tpl_id = #{record.quesTplId,jdbcType=INTEGER},
+      </if>
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
       </if>
       <if test="record.content != null">
         content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isOccupy != null">
+        is_occupy = #{record.isOccupy,jdbcType=INTEGER},
       </if>
       <if test="record.atCreate != null">
         at_create = #{record.atCreate,jdbcType=INTEGER},
@@ -187,8 +207,10 @@
     update phq_message
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
+      ques_tpl_id = #{record.quesTplId,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
+      is_occupy = #{record.isOccupy,jdbcType=INTEGER},
       at_create = #{record.atCreate,jdbcType=INTEGER},
       at_update = #{record.atUpdate,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -201,11 +223,17 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
+      <if test="quesTplId != null">
+        ques_tpl_id = #{quesTplId,jdbcType=INTEGER},
+      </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="isOccupy != null">
+        is_occupy = #{isOccupy,jdbcType=INTEGER},
       </if>
       <if test="atCreate != null">
         at_create = #{atCreate,jdbcType=INTEGER},
@@ -219,8 +247,10 @@
   <update id="updateByPrimaryKey" parameterType="com.example.phq.pojo.PhqMessage">
     update phq_message
     set user_id = #{userId,jdbcType=INTEGER},
+      ques_tpl_id = #{quesTplId,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
+      is_occupy = #{isOccupy,jdbcType=INTEGER},
       at_create = #{atCreate,jdbcType=INTEGER},
       at_update = #{atUpdate,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

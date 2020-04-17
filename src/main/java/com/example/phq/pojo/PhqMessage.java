@@ -7,9 +7,13 @@ public class PhqMessage implements Serializable {
 
     private Integer userId;
 
+    private Integer quesTplId;
+
     private String title;
 
     private String content;
+
+    private Integer isOccupy;
 
     private Integer atCreate;
 
@@ -33,6 +37,14 @@ public class PhqMessage implements Serializable {
         this.userId = userId;
     }
 
+    public Integer getQuesTplId() {
+        return quesTplId;
+    }
+
+    public void setQuesTplId(Integer quesTplId) {
+        this.quesTplId = quesTplId;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -47,6 +59,14 @@ public class PhqMessage implements Serializable {
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
+    }
+
+    public Integer getIsOccupy() {
+        return isOccupy;
+    }
+
+    public void setIsOccupy(Integer isOccupy) {
+        this.isOccupy = isOccupy;
     }
 
     public Integer getAtCreate() {
