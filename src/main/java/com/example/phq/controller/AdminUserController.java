@@ -9,6 +9,7 @@ import com.example.phq.common.response.ResultCode;
 import com.example.phq.model.Audience;
 import com.example.phq.model.Sms;
 import com.example.phq.pojo.PhqAdmin;
+import com.example.phq.pojo.PhqUser;
 import com.example.phq.service.AdminService;
 import com.example.phq.service.SmsService;
 import com.example.phq.util.IOUtil;
@@ -18,13 +19,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -48,6 +57,12 @@ public class AdminUserController {
     private AdminService adminService;
     @Autowired
     private SmsService smsService;
+
+    @Autowired
+    Environment environment;
+
+    //项目的父目录
+    private String pathProfilePhoto = System.getProperty("user.dir") + "\\static\\profilePhoto\\";
 
     @PostMapping("/login")
     public Result adminLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -171,6 +186,33 @@ public class AdminUserController {
         return Result.SUCCESS(admin);
     }
 
+    @JwtVerify
+    @PostMapping("/uploadProfilePhoto")
+    public Result importUserFromFile(MultipartFile profilePhoto, HttpServletRequest request){
+        log.info(pathProfilePhoto);
+        log.info(profilePhoto.getOriginalFilename());//获取上传文件的名字
+        String OriginaFilename = profilePhoto.getOriginalFilename();
+        String profilePhotoName = OriginaFilename.substring(OriginaFilename.lastIndexOf('.'));
+        String adminId = getAdminIdFromToken(request);
+        profilePhotoName = adminId  + profilePhotoName;
+        File localProfilePhoto = new File(pathProfilePhoto,  profilePhotoName);
+        File parentFile = localProfilePhoto.getParentFile();
+        if(!parentFile.exists() && parentFile.mkdirs()){ //创建父目录
+            return Result.FAIL();
+        }
+        try {
+            profilePhoto.transferTo(localProfilePhoto); //保存头像
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            e.printStackTrace();
+            return Result.FAIL();
+        }
+        PhqAdmin admin = adminService.getAdmin(adminId);
+        admin.setImageUrl(getLocalUrl() + "profilePhoto/" + profilePhotoName);
+        admin = adminService.updateAdmin(admin);
+        return Result.SUCCESS(admin);
+    }
+
     @GetMapping("/getOwnInfo")
     @JwtVerify
     public Result getOwnInfo(HttpServletRequest request){
@@ -189,5 +231,15 @@ public class AdminUserController {
         String token = getTokenFromRequest(request);
         String adminId = JwtTokenUtil.getUserId(token, audience.getBase64Secret());
         return adminId;
+    }
+
+    private String getLocalUrl(){
+        InetAddress address = null;
+        try {
+            address = Inet4Address.getLocalHost();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        return "http://"+environment.getProperty("internetAddress") +":"+environment.getProperty("local.server.port") + "/";
     }
 }
